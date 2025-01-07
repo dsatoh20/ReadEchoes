@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Team{% endblock %}
+
+{% block header %}Teams{% endblock %}
+{% block content %}
+    <table class="table table-hover mt-3">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">TeamName</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Description</th>
+            <th scope="col">Members</th>
+            <th scope="col"></th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">0</th>
+                <td>ChangeTheWorld</td>
+                <td>Eric Clapton</td>
+                <td>To change the world.</td>
+                <td>0</td>
+                <td><button type="button" class="btn btn-outline-secondary btn-sm" disabled>Add members</button></td>
+                <td>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                    </svg>
+                </td>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.title}}</td>
+                <td>{{item.owner}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.members.count}}</td>
+                <td>
+                    {% if item.owner == login_user %}
+                    <a href="#" class="btn btn-outline-secondary btn-sm">Add members</a>
+                    {% else %}
+                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Add members</button>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.public == True %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-unlock" viewBox="0 0 16 16">
+                        <path d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2M3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1z"/>
+                    </svg>
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                    </svg>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <div class="m-3">You've belonged to no team yet...</div>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3 class="mt-5">Create your team</h3>
+    <form action="{% url 'accounts:createteam' %}" method="post" class="m-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Create new team</button>
+    </form>
+{% endblock %}

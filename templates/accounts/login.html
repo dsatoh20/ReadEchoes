@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+
+{% block title %}Login{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+    <h2>Login</h2>
+    <p>if you have not created your account yet, please <a href="{% url 'accounts:signup'%}">sign up</a> first.</p>
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'accounts:login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="login" class="btn btn-success">
+        <input type="hidden" name="next" value="{{ next }}">
+
+
+        {# Assumes you set up the password_reset view in your URLconf #}
+        <div class="mt-3"><a href="#">Lost password?</a></div>
+    </form>
+    <div class="mt-3">
+        <h3>or use a third-party</h3>
+        <a href="{% provider_login_url 'github'%}?next=/" class="btn btn-secondary third-party-logo">Login with Github<img src="/media/github-mark.png" alt="GitHub"></a>
+        <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-secondary third-party-logo">Login with Google<img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="G"></a>
+    </div>
+{% endblock %}

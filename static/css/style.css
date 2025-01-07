@@ -1,0 +1,32 @@
+.navbar {
+    padding: 8px;
+}
+.header-logo {
+    height: 32px;
+    width: auto;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.third-party-logo {
+    align-items: center;  /* 中央揃えにする */
+    justify-content: center; /* テキストと画像を中央寄せ */
+}
+.third-party-logo img {
+    height: 20px;
+    margin-left: 5px;
+}
+
+.navbar-end {
+    display: flex;
+    align-items: center;
+}
+.navbar-end svg {
+    height: 32px;
+    width: 32px;
+    fill: #adb5bd;
+}
+
+.footer {
+    width: 100vw;
+}
