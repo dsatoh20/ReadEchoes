@@ -3,7 +3,7 @@
 
 {% block header %}Teams{% endblock %}
 {% block content %}
-    <table class="table table-hover mt-3">
+    <table class="table table-hover mt-3 mb-5">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -38,7 +38,7 @@
                 <td>{{item.members.count}}</td>
                 <td>
                     {% if item.owner == login_user %}
-                    <a href="#" class="btn btn-outline-secondary btn-sm">Add members</a>
+                    <a href="{% url 'accounts:searchuser' item.id %}" class="btn btn-outline-secondary btn-sm">Add members</a>
                     {% else %}
                     <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Add members</button>
                     {% endif %}
@@ -61,10 +61,13 @@
         </tbody>
     </table>
     
-    <h3 class="mt-5">Create your team</h3>
-    <form action="{% url 'accounts:createteam' %}" method="post" class="m-3">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Create new team</button>
-    </form>
+    
+    <div class="container w-50 shadow p-3 mb-2 bg-body-tertiary rounded">
+        <h3 class="mt-1 ms-3">Create a new team</h3>
+        <form action="{% url 'accounts:createteam' %}" method="post" class="m-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success mt-1">Create new team</button>
+        </form>
+    </div>
 {% endblock %}

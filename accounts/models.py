@@ -88,3 +88,10 @@ class Team(models.Model):
     
     def __str__(self):
         return self.title
+
+class InviteTeam(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invite_team_owner')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return str(self.owner) + 'joined' + str(self.team)

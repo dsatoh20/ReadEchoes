@@ -26,7 +26,11 @@
     width: 32px;
     fill: #adb5bd;
 }
+.main {
+    top: 56px;
+    bottom: 80px;
+}
 
 .footer {
-    width: 100vw;
+    height: 80px;
 }

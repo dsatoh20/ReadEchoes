@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
 
-{% block header %}Welcome to ReadEchoes, {{login_user}}!{% endblock %}
+{% block header %}
+    {% if login_user.username == '' %}
+    Welcome to ReadEchoes.
+    {% else %}
+    Welcome to ReadEchoes, {{login_user}}!
+    {% endif %}
+    <br><h5>~ Open Book, Open Prejudice ~</h5>
+{% endblock %}
 {% block content %}
+{% if login_user.username == '' %}
+<div class="content mt-3">
+    <a href="{% url 'accounts:login' %}" class="btn btn-secondary">Login</a>
+    <a href="{% url 'accounts:signup' %}" class="btn btn-primary">SignUp</a>
+</div>
+{% endif %}
 {% endblock %}
