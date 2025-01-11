@@ -35,7 +35,7 @@
             {% endif %}
             <nav class="navbar bg-body-tertiary">
               <form class="container-fluid justify-content-start">
-                <button class="btn btn-success" type="button">Post</button>
+                <a class="btn btn-success" href="{% url 'records:post' %}">Post</a>
               </form>
             </nav>
           </div>
@@ -43,7 +43,15 @@
     </nav>
     <div class="main overflow-y-scroll position-absolute vw-100 mt-1 mb-1">
       <div class="header container" style="margin-top: 1rem;"><h3>{% block header %}{% endblock %}</h3></div>
-      <div class="container mb-3">{% block content %}{% endblock %}</div>  
+      <div class="container mb-3">
+        {% if messages %}
+        <ul class="messages mt-3 mb-3">
+          {% for message in messages %}
+          <li{% if message.tags %} class="text-{{ message.tags }}-emphasis"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% block content %}{% endblock %}</div>  
     </div>
     <footer class="footer mt-auto py-3 fixed-bottom bg-body-tertiary d-flex p-3 overflow-hidden">
       <div class="copyright p-2 flex-grow-1">© 2025 dsatoh20. All Rights Reserved.</div>

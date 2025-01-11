@@ -16,9 +16,8 @@ import environ, os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-env = environ.Env(
-    DEBUG=(bool, False)
-)
+env = environ.Env()
+
 # テンプレート(HTML)
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 # static(CSS)
@@ -33,8 +32,8 @@ MEDIA_DIR = os.path.join(BASE_DIR,"media")
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+# DEBUG = True
+DEBUG = env.bool('DEBUG', False)
 ALLOWED_HOSTS = []
 
 

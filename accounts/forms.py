@@ -17,11 +17,11 @@ class TeamForm(ModelForm):
         model = Team
         fields = ["title", "description", "public"]
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control mt-1',
+            'title': forms.TextInput(attrs={'class': 'form-control',
                                             'placeholder': 'Type your new team title...'}),
-            'description': forms.Textarea(attrs={'class': 'form-control mt-1',
+            'description': forms.Textarea(attrs={'class': 'form-control',
                                                  'placeholder': 'Type a description for your new team here...'}),
-            'public': forms.CheckboxInput(attrs={'class': 'form-check mt-1'}),
+            'public': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
         
 class SearchUserForm(forms.Form):

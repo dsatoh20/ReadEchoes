@@ -28,3 +28,4 @@
 - [【Django】Googleアカウントログインを実装 - 簡単4ステップで実現！](https://qiita.com/ryo-keima/items/29da18b0eb00ddc6e61a)
 - [Django Documentation](https://docs.djangoproject.com/en/5.1/)
 - [Bootstrap Document](https://getbootstrap.jp/docs/5.3/getting-started/introduction/)
+- [Books API document](https://developers.google.com/books/docs/v1/using)

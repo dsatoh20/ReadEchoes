@@ -1,6 +1,9 @@
 import requests
 import json
 from pprint import pprint
+import environ, os
+environ.Env.read_env('../.env')
+env = environ.Env()
 
 api = 'https://www.googleapis.com/books/v1/volumes?q=intitle:'
 """
@@ -24,7 +27,10 @@ def get_book_info(title, author=""):
     if author != "":
         url += "+inauthor:"
         url += author
+    url += f'&key={env("GOOGLE_BOOKS_API_KEY")}' 
+    print('----------------', url)
     res = requests.get(url).json()
+    pprint(res)
     n = res['totalItems']
     item = res['items'][0]['volumeInfo']
     pprint(item)

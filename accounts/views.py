@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -34,6 +35,7 @@ def createteam(request):
             team.owner = request.user
             team.save()
             print('successfully created a new team.')
+            messages.success('Successfully created a new team!')
     return redirect('/accounts/team')
     
     
@@ -54,6 +56,9 @@ def searchuser(request, team_id):
     login_user = request.user
     team = Team.objects.get(id=team_id)
     members = team.members.all()
+    if login_user not in members and login_user != team.owner: # memberでない場合、閲覧できない
+        messages.warning(request, 'You have no permission for this request.')
+        redirect('/team')
     belonged_teams = None # 検索したuserが所属するチーム
     hit = None
     hit_id = 0
@@ -80,19 +85,24 @@ def searchuser(request, team_id):
     return render(request, 'accounts/searchuser.html', params)
 
 # ヒットしたUserをグループに追加
+@login_required
 def adduser(request, team_id, user_id):
     print('adduserにいきました！！')
     team = Team.objects.get(id=team_id) # 追加対象のTeam
     user = User.objects.get(id=user_id) # 追加対象のUser
+    if request.user != team.owner: # owner出ない場合、操作できない
+        messages.warning(request, 'You have no permission for this request.')
+        redirect(f'/accounts/searchuser/{team_id}')
     invite_team = InviteTeam.objects.filter(team=team).filter(owner=user).first()
     if invite_team:
         team.members.remove(user)
         invite_team.delete()
+        messages.warning(request, f'Removed {user.username} from {team.title}')
     else:
         team.members.add(user)
         invite_team = InviteTeam()
         invite_team.owner = user
         invite_team.team = team
         invite_team.save()
-    print('adduser完了！！！')
+        messages.success(request, f'{user.username} joined {team.title}')
     return redirect(f'/accounts/searchuser/{team_id}')
