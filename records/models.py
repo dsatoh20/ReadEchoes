@@ -31,3 +31,11 @@ class Book(models.Model):
         self.first_author, self.img_path, self.pub_year, self.summary = items["first_author"], items["img_path"], int(items["pub_year"]), items["summary"]
     class Meta:
         ordering = ('-pub_date',)
+        
+
+class Like(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='like_owner')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='like_book')
+    
+    def __str__(self):
+        return str(self.owner) + 'liked' + str(self.book)

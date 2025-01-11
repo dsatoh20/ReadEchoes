@@ -3,7 +3,7 @@
 
 {% block header %}Post{% endblock %}
 {% block content %}
-<div class="container w-auto shadow mt-3 p-3">
+<div class="container-fluid w-auto shadow mt-3 p-3">
     <h4>Create a new record</h4>
     <form method="post" action="{% url 'records:post' %}" class="mt-3 needs-validation" novalidate>
         {% csrf_token %}

@@ -4,9 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from records.forms import BookForm
-from .models import Book
-from accounts.models import User
-from accounts.models import Team
+from .models import Book, Like
+from accounts.models import User, Team
 
 
 # Create your views here.
@@ -15,12 +14,16 @@ def index(request):
     if login_user.username != '':
         available_teams = Team.objects.filter(members=login_user)
         available_items = Book.objects.filter(Q(owner=login_user)|Q(team__in=available_teams)).distinct()
+        likes = login_user.like_owner.all()
+        liked_items = Book.objects.filter(Q(owner=login_user)|Q(team__in=available_teams)).filter(like_book__in=likes).distinct()
     else:
         available_items = Team.objects.none()
+        liked_items = Book.objects.none()
         
     params = {
         'login_user' : login_user,
         'items': available_items,
+        'liked_items': liked_items,
     }
     return render(request, 'index.html', params)
 
@@ -53,3 +56,22 @@ def post(request):
         'form': form,
     }
     return render(request, 'records/post.html', params)
+
+def like(request, book_id):
+    # likeボタン押下で作動
+    login_user = request.user
+    book = Book.objects.get(id=book_id)
+    like = Like.objects.filter(owner=login_user).filter(book=book).first()
+    if like:
+        like.delete() # likeオブジェクトを削除
+        book.good_count -= 1 # イイネ数を-1
+        messages.debug(request, f'Removed like to {book}.')
+    else:
+        like = Like() # 新たにlikeオブジェクトを登録
+        like.owner = login_user
+        like.book = book
+        like.save()
+        book.good_count += 1 # イイネ数を+1
+        messages.debug(request, f'Liked {book}.')
+    book.save()
+    return redirect('/')

@@ -1,19 +1,28 @@
+body {
+    font-family: BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.5rem;
+}
+/* mainカラー */
+.main-color {
+    color: #adb5bd;
+}
 .navbar {
     padding: 8px;
+    align-items: center;
 }
 .header-logo {
-    height: 32px;
+    height: 24px;
     width: auto;
-    margin-right: 20px;
     border-radius: 50%;
 }
 
 .third-party-logo {
+    display: flex;
+    width: 180px;
     align-items: center;  /* 中央揃えにする */
-    justify-content: center; /* テキストと画像を中央寄せ */
+    justify-content: center; /* テキストと画像を中央寄せ */ 
 }
-.third-party-logo img {
-    height: 20px;
+.third-party-logo svg {
     margin-left: 5px;
 }
 
@@ -22,17 +31,17 @@
     align-items: center;
 }
 .navbar-end svg {
-    height: 32px;
-    width: 32px;
+    height: 24px;
+    width: 24px;
     fill: #adb5bd;
 }
 .main {
-    top: 56px;
-    bottom: 80px;
+    top: 42px;
+    bottom: 54px;
 }
 
 .footer {
-    height: 80px;
+    height: 54px;
 }
 .card-container {
     width: 200px;
