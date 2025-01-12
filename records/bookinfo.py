@@ -51,6 +51,7 @@ def get_book_info(title, author=""):
         img_path = "/media/logo120.png"
     try:
         summary = item['description']
+        summary += '\n(Retrieved from Google Books.)'
     except:
         summary = ""
     print({"title": title, "first_author": first_author, "pub_year": pub_year, "genre": genre, "img_path": img_path, "summary": summary})

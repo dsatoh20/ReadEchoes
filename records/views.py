@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -11,19 +12,11 @@ from accounts.models import User, Team
 # Create your views here.
 def index(request):
     login_user = request.user
-    if login_user.username != '':
-        available_teams = Team.objects.filter(members=login_user)
-        available_items = Book.objects.filter(Q(owner=login_user)|Q(team__in=available_teams)).distinct()
-        likes = login_user.like_owner.all()
-        liked_items = Book.objects.filter(Q(owner=login_user)|Q(team__in=available_teams)).filter(like_book__in=likes).distinct()
-    else:
-        available_items = Team.objects.none()
-        liked_items = Book.objects.none()
         
     params = {
         'login_user' : login_user,
-        'items': available_items,
-        'liked_items': liked_items,
+        'items': get_available_items(login_user),
+        'liked_items': get_liked_items(login_user),
     }
     return render(request, 'index.html', params)
 
@@ -74,4 +67,49 @@ def like(request, book_id):
         book.good_count += 1 # イイネ数を+1
         messages.debug(request, f'Liked {book}.')
     book.save()
-    return redirect('/')
+    referer_url = request.META.get('HTTP_REFERER', '/')
+    print(referer_url)
+    return HttpResponseRedirect(referer_url)
+
+def record(request, book_id):
+    login_user = request.user
+    record = Book.objects.get(id=book_id)
+    params = {
+        'login_user': login_user,
+        'item': record,
+        'liked_items': get_liked_items(login_user)
+    }
+    return render(request, 'records/record.html', params)
+
+@login_required
+def portfolio(request):
+    login_user = request.user
+    items = Book.objects.filter(owner=login_user) if login_user.username != '' else Book.objects.none()
+    params = {
+        'login_user': login_user,
+        'items': items,
+        'liked_items': get_liked_items(login_user)
+    }
+    return render(request, 'records/portfolio.html', params)
+
+
+
+"""
+ただの関数below
+"""
+def get_available_items(user):
+    if user.username != '':
+        available_teams = Team.objects.filter(members=user).distinct()
+        available_items = Book.objects.filter(Q(owner=user)|Q(team__in=available_teams)).distinct()
+    else:
+        available_items = Book.objects.none()
+    return available_items
+
+def get_liked_items(user):
+    if user.username != '':
+        available_teams = Team.objects.filter(members=user).distinct()
+        likes = user.like_owner.all()
+        liked_items = Book.objects.filter(Q(owner=user)|Q(team__in=available_teams)).filter(like_book__in=likes).distinct()
+    else:
+        liked_items = Book.objects.none()
+    return liked_items
