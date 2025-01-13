@@ -15,7 +15,7 @@ class Book(models.Model):
     summary = models.TextField(max_length=1000, blank=True, null=True)
     report = models.TextField(max_length=5000)
     good_count = models.IntegerField(default=0)
-    chat_count = models.IntegerField(default=0)
+    comment_count = models.IntegerField(default=0)
     pub_date = models.DateTimeField(auto_now_add=True)
     # edit_date = models.DateTimeField(auto_now=True)
     # edit_count = models.IntegerField(default=0)
@@ -39,3 +39,13 @@ class Like(models.Model):
     
     def __str__(self):
         return str(self.owner) + 'liked' + str(self.book)
+    
+class Comment(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_owner')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comment_book')
+    content = models.TextField(max_length=140)
+    date = models.DateTimeField(auto_now_add=True)
+    reply_id = models.IntegerField(default=-1)
+    
+    def __str__(self):
+        return str(self.owner) + 'commented to' + str(self.book)

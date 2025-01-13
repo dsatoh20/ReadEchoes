@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
 
-{% block header %}<p class="text-body-secondary">Open Books, Open Prejudices</p>{% endblock %}
+{% block header %}
+<figure>
+    <blockquote class="blockquote">
+      <p>Welcome to ReadEchoes.</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+         <cite title="Source Title">Open Books, Open Prejudices</cite>
+    </figcaption>
+</figure>
+{% endblock %}
 {% block content %}
 {% if login_user.username == '' %}
 <div class="content mt-3">

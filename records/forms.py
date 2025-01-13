@@ -1,7 +1,7 @@
 from django.db import models
 from django import forms
 from django.forms import ModelForm
-from .models import Book
+from .models import Book, Comment
 from datetime import datetime
 
 class BookForm(ModelForm):
@@ -30,3 +30,14 @@ class BookForm(ModelForm):
         if user:
             teams = user.team_owner.all()
             self.fields['team'].choices = [(item.id, item.title) for item in teams]
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control',
+                                             'placeholder': 'Type a comment within 140 characters...',
+                                             'id': 'floatingTextarea'}),
+        }
+        

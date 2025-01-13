@@ -57,7 +57,7 @@ def searchuser(request, team_id):
     team = Team.objects.get(id=team_id)
     members = team.members.all()
     if login_user not in members and login_user != team.owner: # memberでない場合、閲覧できない
-        messages.warning(request, 'You have no permission for this request.')
+        messages.warning(request, 'No permission to access.')
         redirect('/team')
     belonged_teams = None # 検索したuserが所属するチーム
     hit = None

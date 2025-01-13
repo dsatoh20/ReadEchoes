@@ -11,7 +11,7 @@
 <main class="">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden p-0 align-middle">
         <div class="container-fluid">
-          <a class="navbar-brand ms-1" href="{% url 'records:index' %}"><img src="/media/logo120.png" alt="..." class="header-logo me-3">Read Echoes</a>
+          <a class="navbar-brand ms-1 font-monospace" href="{% url 'records:index' %}"><img src="/media/logo120.png" alt="..." class="header-logo me-3">ReadEchoes</a>
           <button class="navbar-toggler fs-6" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -19,7 +19,7 @@
             <div class="navbar-nav">
               <a class="nav-link" aria-current="page" href="{% url 'records:index' %}">Home</a>
               <a class="nav-link" href="{% url 'accounts:team' %}">Team</a>
-              <a class="nav-link" href="{% url 'records:portfolio' %}">Portfolio</a>
+              <a class="nav-link" href="{% url 'records:portfolio' %}">Library</a>
             </div>
           </div>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end navbar-end">
@@ -73,6 +73,11 @@
       // popoverを有効化
       const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
       const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
+    <script>
+      // toastを有効化
+      const toastElList = document.querySelectorAll('.toast')
+      const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option))
     </script>
 </main>
 </html>

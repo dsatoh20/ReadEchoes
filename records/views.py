@@ -4,18 +4,20 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from records.forms import BookForm
-from .models import Book, Like
+from records.forms import BookForm, CommentForm
+from .models import Book, Like, Comment
 from accounts.models import User, Team
 
 
 # Create your views here.
 def index(request):
     login_user = request.user
+    public_team = Team.objects.filter(public=True)
+    items = get_available_items(login_user) if login_user.username != '' else Book.objects.filter(team__in=public_team).distinct()
         
     params = {
         'login_user' : login_user,
-        'items': get_available_items(login_user),
+        'items': items,
         'liked_items': get_liked_items(login_user),
     }
     return render(request, 'index.html', params)
@@ -50,6 +52,7 @@ def post(request):
     }
     return render(request, 'records/post.html', params)
 
+@login_required
 def like(request, book_id):
     # likeボタン押下で作動
     login_user = request.user
@@ -68,16 +71,47 @@ def like(request, book_id):
         messages.debug(request, f'Liked {book}.')
     book.save()
     referer_url = request.META.get('HTTP_REFERER', '/')
-    print(referer_url)
-    return HttpResponseRedirect(referer_url)
+    if 'accounts/login' in referer_url: # 未ログイン状態でいいねした場合
+        print('redirect to home...')
+        return redirect('/')
+    else:
+        return HttpResponseRedirect(referer_url)
 
 def record(request, book_id):
     login_user = request.user
     record = Book.objects.get(id=book_id)
+    if login_user in record.team.members or login_user == record.team.owner:
+        # クライアントがチームメンバーなら、Okay.
+        pass
+    else:
+        if record.team.public == True:
+            # 投稿先チームがpublicなら、Okay.
+            pass
+        else:
+            # それ以外はアクセス許可なし
+            messages.warning('No permission to access this record.')
+            return redirect('/')
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.owner = login_user
+            comment.book = record
+            comment.save()
+            messages.success(request, 'Successfully commented.')
+            return redirect(f'/record/{book_id}')
+        else:
+            messages.debug(form.errors)
+            print(form.errors)
+    else:
+        form = CommentForm()
     params = {
         'login_user': login_user,
         'item': record,
-        'liked_items': get_liked_items(login_user)
+        'liked_items': get_liked_items(login_user),
+        'form': form,
+        'comments': Comment.objects.filter(book=record).filter(reply_id=-1).distinct(),
     }
     return render(request, 'records/record.html', params)
 
@@ -91,6 +125,7 @@ def portfolio(request):
         'liked_items': get_liked_items(login_user)
     }
     return render(request, 'records/portfolio.html', params)
+
 
 
 
