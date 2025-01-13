@@ -8,6 +8,7 @@ Teams
 </svg>
 {% endblock %}
 {% block content %}
+    <!--チーム一覧-->
     <table class="table table-hover mt-3 mb-5">
         <thead>
         <tr>
@@ -32,7 +33,7 @@ Teams
                     </svg>
                     {{item.owner}}
                 </td>
-                <td>{{item.description}}</td>
+                <td class="text-truncate">{{item.description}}</td>
                 <td>{{item.members.count}}</td>
                 <td>
                     {% if item.owner == login_user %}
@@ -59,8 +60,8 @@ Teams
         </tbody>
     </table>
     
-    
-    <div class="w-50 shadow p-3 mb-2 bg-body-tertiary rounded">
+    <!--チーム作成フォーム-->
+    <div class="comment-mw shadow p-3 mb-2 bg-body-tertiary rounded">
         <h4 class="mt-1 ms-3">Create a new team</h4>
         <form action="{% url 'accounts:createteam' %}" method="post" class="m-3">
             {% csrf_token %}

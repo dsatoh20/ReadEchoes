@@ -12,4 +12,5 @@ urlpatterns = [
     path('record/<int:book_id>', views.record, name='record'),
     path('portfolio', views.portfolio, name='portfolio'),
     path('record/<int:book_id>/reply/<comment_id>', views.reply, name='reply'),
+    path('edit/<int:book_id>', views.edit, name='edit'),
 ]

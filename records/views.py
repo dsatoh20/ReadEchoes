@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from records.forms import BookForm, CommentForm
+from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm
 from .models import Book, Like, Comment
 from accounts.models import User, Team
 
@@ -14,11 +14,26 @@ def index(request):
     login_user = request.user
     public_team = Team.objects.filter(public=True)
     items = get_available_items(login_user) if login_user.username != '' else Book.objects.filter(team__in=public_team).distinct()
-        
+    
+    if request.method == 'POST':
+        form = TeamSelectForm(login_user, request.POST)
+        if form.is_valid():
+            selected = form.cleaned_data['team']
+            print(selected)
+            if selected == 'Public':
+                public_teams = Team.objects.filter(public=True).distinct()
+                items = Book.objects.filter(team__in=public_teams).distinct()
+            elif selected != 'All':
+                items = Book.objects.filter(team=Team.objects.get(id=selected))
+        else:
+            print(form.errors)
+    else:
+        form = TeamSelectForm(user=login_user)
     params = {
         'login_user' : login_user,
         'items': items,
         'liked_items': get_liked_items(login_user),
+        'form': TeamSelectForm(login_user),
     }
     return render(request, 'index.html', params)
 
@@ -161,8 +176,31 @@ def reply(request, book_id, comment_id):
         'form': form,
     }
     return render(request, 'records/reply.html', params)
-    
 
+@login_required
+def edit(request, book_id):
+    login_user = request.user
+    record = Book.objects.get(id=book_id)
+    if record.owner != login_user:
+        # ownerだけが編集できる
+        messages.warning(request, 'No permission to edit this record.')
+        return redirect(f'/record/{book_id}')
+    if request.method == 'POST':
+        form = BookUpdateForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully updated!')
+            return redirect(f'/record/{book_id}')
+        else:
+            print(form.errors)
+    else:
+        form = BookUpdateForm(instance=record)
+    params = {
+        'login_user': login_user,
+        'item': record,
+        'form': form,
+    }
+    return render(request, 'records/edit.html', params)
 
 """
 ただの関数below

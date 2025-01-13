@@ -17,7 +17,7 @@ class Book(models.Model):
     good_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
     pub_date = models.DateTimeField(auto_now_add=True)
-    # edit_date = models.DateTimeField(auto_now=True)
+    edit_date = models.DateTimeField(auto_now=True)
     # edit_count = models.IntegerField(default=0)
     
     def __str__(self):
@@ -26,7 +26,7 @@ class Book(models.Model):
         info = get_book_info(self.title, self.first_author)
         items = {"first_author": self.first_author, "img_path":self.img_path, "pub_year":self.pub_year, "summary":self.summary}
         for label, item in items.items():
-            if item == None or item == "":
+            if item == None or item == "" or item == 0:
                 items[label] = info[label]
         self.first_author, self.img_path, self.pub_year, self.summary = items["first_author"], items["img_path"], int(items["pub_year"]), items["summary"]
     class Meta:
