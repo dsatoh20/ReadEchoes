@@ -16,8 +16,6 @@ class TMDB:
 
     def _json_by_get_request(self, url, params={}):
         res = requests.get(url, headers=self.headers_, params=params)
-        pprint(self.headers_)
-        print(res.url)
         return json.loads(res.text)
 
     def search_movies(self, query): # タイトルで検索
