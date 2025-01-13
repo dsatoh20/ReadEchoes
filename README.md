@@ -29,3 +29,5 @@
 - [Django Documentation](https://docs.djangoproject.com/en/5.1/)
 - [Bootstrap Document](https://getbootstrap.jp/docs/5.3/getting-started/introduction/)
 - [Books API document](https://developers.google.com/books/docs/v1/using)
+- [Reauests Quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/)
+- [TMDB API document](https://developer.themoviedb.org/reference/intro/getting-started)

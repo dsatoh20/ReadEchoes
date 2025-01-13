@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm
+from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm, MediumSelectForm
 from .models import Book, Like, Comment
 from accounts.models import User, Team
 
@@ -44,17 +44,34 @@ def post(request):
         form = BookForm(request.POST, login_user)
         if form.is_valid():
             book = form.save(commit=False)
-            try:
-                book.auto_fill()
-                print('successfully complemented!')
-            except Exception as e:
-                print(f'failed to auto_fill...Err: {e}')
-                messages.warning(request, 'Failed to get book information...please edit it manually.')
-            book.owner = login_user
-            book.save()
-            if book.img_path == '':
+            info_medium = book.info_medium
+            if info_medium == 1: # 1:Book
+                try:
+                    book.auto_fill()
+                    print('successfully complemented!')
+                except Exception as e:
+                    print(f'failed to auto_fill...Err: {e}')
+                    messages.warning(request, 'Failed to get book information...please edit it manually.')
+            elif info_medium == 2: # 2:Movie
+                try:
+                    book.auto_fill_mov()
+                    print('successfully complemented!')
+                except Exception as e:
+                    print(f'failed to auto_fill...Err: {e}')
+                    messages.warning(request, 'Failed to get movie information...please edit it manually.')
+            elif info_medium == 3: # 3:Music
+                pass
+            elif info_medium == 4: # 4:Thesis
+                pass
+            else: # 0:Others
+                pass
+            
+            print(f'img_pathは{book.img_path}')
+            if book.img_path == '' or book.img_path == None: # img_pathが空欄なら、ロゴを埋めておく
                 book.img_path = '/media/logo256.png'
                 messages.debug(request, 'set logo as image_path.')
+            book.owner = login_user
+            book.save()    
             messages.success(request, 'Successfully posted a new record!')
             return redirect('/')
         else:
@@ -134,10 +151,21 @@ def record(request, book_id):
 def portfolio(request):
     login_user = request.user
     items = Book.objects.filter(owner=login_user) if login_user.username != '' else Book.objects.none()
+    if request.method=='POST':
+        form = MediumSelectForm(request.POST)
+        if form.is_valid():
+            selected = form.cleaned_data['info_medium']
+            if selected != 'All':
+                items = Book.objects.filter(owner=login_user).filter(info_medium=selected)
+        else:
+            print(form.errors)
+    else:
+        form = MediumSelectForm()
     params = {
         'login_user': login_user,
         'items': items,
-        'liked_items': get_liked_items(login_user)
+        'liked_items': get_liked_items(login_user),
+        'form': form,
     }
     return render(request, 'records/portfolio.html', params)
 

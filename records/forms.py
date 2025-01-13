@@ -5,12 +5,17 @@ from .models import Book, Comment
 from accounts.models import Team
 from django.db.models import Q
 
+
+medium_choices = [(1, 'Book'), (2, 'Movie'), (3, 'Music'), (4, 'Thesis') ,(0, 'Others')]
+
 class BookForm(ModelForm):
     class Meta:
         model = Book
-        fields = ['team', 'title', 'first_author', 'score', 'summary', 'report']
+        fields = ['team', 'info_medium', 'title', 'first_author', 'score', 'summary', 'report']
         widgets = {
             'team': forms.Select(attrs={'class': 'form-select'}),
+            'info_medium': forms.Select(choices=medium_choices,
+                                        attrs={'class': 'form-select'}),
             'title': forms.TextInput(attrs={'class': 'form-control',
                                             'placeholder': 'Type or paste a book title here...'}),
             'first_author': forms.TextInput(attrs={'class': 'form-control',
@@ -35,10 +40,12 @@ class BookForm(ModelForm):
 class BookUpdateForm(ModelForm):
     class Meta:
         model = Book
-        fields = ['team', 'title', 'first_author', 'pub_year', 'score', 'summary', 'report']
+        fields = ['team', 'info_medium', 'title', 'first_author', 'pub_year', 'score', 'summary', 'report']
         
         widgets = {
             'team': forms.Select(attrs={'class': 'form-select'}),
+            'info_medium': forms.Select(choices=[(1, 'Book'), (2, 'Movie'), (3, 'Music'), (4, 'Thesis') ,(0, 'Others')],
+                                        attrs={'class': 'form-select'}),
             'title': forms.TextInput(attrs={'class': 'form-control',
                                             'placeholder': 'Type or paste a book title here...'}),
             'first_author': forms.TextInput(attrs={'class': 'form-control',
@@ -88,3 +95,12 @@ class TeamSelectForm(forms.Form):
         if team == '-':
             raise forms.ValidationError('Select one team.')
         return team
+
+class MediumSelectForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['info_medium'] = forms.ChoiceField(
+            choices=[('All', 'All')] + medium_choices,
+            widget=forms.RadioSelect(attrs={'class':'',
+                                            'type': 'radio'})
+        )

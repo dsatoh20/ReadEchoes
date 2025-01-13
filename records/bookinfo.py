@@ -28,7 +28,6 @@ def get_book_info(title, author=""):
         url += "+inauthor:"
         url += author
     url += f'&key={env("GOOGLE_BOOKS_API_KEY")}' 
-    print('----------------', url)
     res = requests.get(url).json()
     pprint(res)
     n = res['totalItems']
@@ -48,7 +47,7 @@ def get_book_info(title, author=""):
     try:
         img_path = item['imageLinks']['thumbnail']
     except:
-        img_path = "/media/logo120.png"
+        img_path = ""
     try:
         summary = item['description']
         summary += '\n(Retrieved from Google Books.)'
