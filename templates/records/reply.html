@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Record{% endblock %}
+{% block title %}Reply{% endblock %}
 
 {% block header %}
 {{item.title}} / {{item.first_author}}
@@ -42,6 +42,7 @@
 {% endblock %}
 {% block content %}
 <!--書籍情報-->
+<!--書籍情報-->
 <div class="mt-3">
     <h4>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars" viewBox="0 0 16 16">
@@ -51,25 +52,42 @@
     </h4>
     <div class="">{{item.report}}</div>
 </div>
-<!--コメントフォーム-->
 <div class="mt-3">
     <h4>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-dots" viewBox="0 0 16 16">
             <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
             <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
         </svg>
-        Comments
+        Comment
     </h4>
 </div>
-<!--クライアントがチームメンバーのとき、commentを許可-->
-{% if login_user in item.team.members.all or login_user == item.team.owner %}
+<!--リプライ対象のコメント-->
+<div class="mt-3">
+    {% include 'records/comment-component.html' with item=comment user=login_user %}
+</div>
+<div class="mt-1 text-center w-50">
+    <a href="{% url 'records:record' item.id %}" class="btn btn-outline-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+        </svg>
+        Back to all comments
+    </a>
+</div>
+<h4 class="mt-3">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reply-all" viewBox="0 0 16 16">
+        <path d="M8.098 5.013a.144.144 0 0 1 .202.134V6.3a.5.5 0 0 0 .5.5c.667 0 2.013.005 3.3.822.984.624 1.99 1.76 2.595 3.876-1.02-.983-2.185-1.516-3.205-1.799a8.7 8.7 0 0 0-1.921-.306 7 7 0 0 0-.798.008h-.013l-.005.001h-.001L8.8 9.9l-.05-.498a.5.5 0 0 0-.45.498v1.153c0 .108-.11.176-.202.134L4.114 8.254l-.042-.028a.147.147 0 0 1 0-.252l.042-.028zM9.3 10.386q.102 0 .223.006c.434.02 1.034.086 1.7.271 1.326.368 2.896 1.202 3.94 3.08a.5.5 0 0 0 .933-.305c-.464-3.71-1.886-5.662-3.46-6.66-1.245-.79-2.527-.942-3.336-.971v-.66a1.144 1.144 0 0 0-1.767-.96l-3.994 2.94a1.147 1.147 0 0 0 0 1.946l3.994 2.94a1.144 1.144 0 0 0 1.767-.96z"/>
+        <path d="M5.232 4.293a.5.5 0 0 0-.7-.106L.54 7.127a1.147 1.147 0 0 0 0 1.946l3.994 2.94a.5.5 0 1 0 .593-.805L1.114 8.254l-.042-.028a.147.147 0 0 1 0-.252l.042-.028 4.012-2.954a.5.5 0 0 0 .106-.699"/>
+    </svg>
+    Replies
+</h4>
+<!--リプライフォーム-->
 <div class="mt-3">
     <div class="w-50 shadow mb-2 bg-body-tertiary rounded">
-        <form action="{% url 'records:record' item.id %}" method="post" class="mt-1">
+        <form action="{% url 'records:reply' item.id comment.id %}" method="post" class="mt-1">
             {% csrf_token %}
             <div class="mt-1 form-floating">
                 {{form.content}}
-                <label class="floatingTextarea">Type a comment here within 140 characters.</label>
+                <label class="floatingTextarea">Type here within 140 characters.</label>
                 <div class="invalid-feedback">{{form.content.errors}}</div>
             </div>
             <button type="submit" class="btn btn-success btn-sm mt-1 mb-5 float-end">
@@ -81,13 +99,12 @@
         </form>
     </div>
 </div>
-{% endif %}
-<!--コメント一覧-->
+<!--リプライ一覧-->
 <div class="mt-5">
-    {% for item in comments %}
-        {% include 'records/comment-component.html' with item=item user=login_user %}
+    {% for reply in replies %}
+        {% include 'records/comment-component.html' with item=reply user=login_user %}
     {% empty %}
-    no comment yet...
+    <div>no replies yet...</div>
 {% endfor %}
 </div>  
 {% endblock %}

@@ -80,7 +80,7 @@ def like(request, book_id):
 def record(request, book_id):
     login_user = request.user
     record = Book.objects.get(id=book_id)
-    if login_user in record.team.members or login_user == record.team.owner:
+    if login_user in record.team.members.all() or login_user == record.team.owner:
         # クライアントがチームメンバーなら、Okay.
         pass
     else:
@@ -89,7 +89,7 @@ def record(request, book_id):
             pass
         else:
             # それ以外はアクセス許可なし
-            messages.warning('No permission to access this record.')
+            messages.warning(request, 'No permission to access this record.')
             return redirect('/')
     
     if request.method == 'POST':
@@ -126,7 +126,42 @@ def portfolio(request):
     }
     return render(request, 'records/portfolio.html', params)
 
-
+@login_required
+def reply(request, book_id, comment_id):
+    login_user = request.user
+    record = Book.objects.get(id=book_id)
+    if login_user in record.team.members.all() or login_user == record.team.owner:
+        # クライアントがチームメンバーなら、Okay.
+        pass
+    else:
+        messages.warning(request, 'No permission to access.')
+        return redirect(f'/records/{book_id}')
+    comment = Comment.objects.get(id=comment_id)
+    replies = Comment.objects.filter(reply_id=comment_id).distinct()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.owner = login_user
+            reply.book = record
+            reply.reply_id = comment_id # 返信先コメントと紐づけ
+            reply.save()
+            messages.success(request, 'Successfully replied.')
+            return redirect(f'/record/{book_id}/reply/{comment_id}')
+        else:
+            messages.debug(request, form.errors)
+            print(form.errors)
+    else:
+        form = CommentForm()
+    params = {
+        'login_user': login_user,
+        'item': record,
+        'comment': comment,
+        'replies': replies,
+        'form': form,
+    }
+    return render(request, 'records/reply.html', params)
+    
 
 
 """
