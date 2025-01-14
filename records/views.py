@@ -243,9 +243,8 @@ def get_available_items(user):
 
 def get_liked_items(user):
     if user.username != '':
-        available_teams = Team.objects.filter(members=user).distinct()
         likes = user.like_owner.all()
-        liked_items = Book.objects.filter(Q(owner=user)|Q(team__in=available_teams)).filter(like_book__in=likes).distinct()
+        liked_items = Book.objects.filter(like_book__in=likes).distinct()
     else:
         liked_items = Book.objects.none()
     return liked_items
