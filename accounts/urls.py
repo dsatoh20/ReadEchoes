@@ -12,5 +12,9 @@ urlpatterns = [
     path('team/', views.team, name='team'),
     path('createteam/', views.createteam, name='createteam'),
     path('searchuser/<int:team_id>', views.searchuser, name='searchuser'),
-    path('adduser/<int:team_id>/<int:user_id>', views.adduser, name='adduser')
+    path('adduser/<int:team_id>/<int:user_id>', views.adduser, name='adduser'),
+    path('contact', views.contact, name='contact'),
+    path('about', views.about, name='about'),
+    path('terms', views.terms, name='terms'),
+    path('policy', views.policy, name='policy'),
 ]

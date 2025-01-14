@@ -106,3 +106,28 @@ def adduser(request, team_id, user_id):
         invite_team.save()
         messages.success(request, f'{user.username} joined {team.title}')
     return redirect(f'/accounts/searchuser/{team_id}')
+
+def contact(request):
+    login_user = request.user
+    params = {
+        'login_user': login_user,
+    }
+    return render(request, 'contact.html', params)
+def about(request):
+    login_user = request.user
+    params = {
+        'login_user': login_user,
+    }
+    return render(request, 'about.html', params)
+def terms(request):
+    login_user = request.user
+    params = {
+        'login_user': login_user,
+    }
+    return render(request, 'terms.html', params)
+def policy(request):
+    login_user = request.user
+    params = {
+        'login_user': login_user,
+    }
+    return render(request, 'policy.html', params)
