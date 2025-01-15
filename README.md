@@ -11,11 +11,13 @@
 ### フロントエンド
 - Bootstrap
 ### バックエンド
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fimg.shields.io%2Fbadge%2F-Django-092E20.svg%3Flogo%3Ddjango%26style%3Dfor-the-badge?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=8e893eb1e18849898af16fa81c0b9642">
+- <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fimg.shields.io%2Fbadge%2F-Django-092E20.svg%3Flogo%3Ddjango%26style%3Dfor-the-badge?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=8e893eb1e18849898af16fa81c0b9642">
+
+- Cloudinary
+- Heroku
 
 ### 使用言語
-<img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fimg.shields.io%2Fbadge%2F-Python-F2C63C.svg%3Flogo%3Dpython%26style%3Dfor-the-badge?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=c17144ccc12f9c19e9dbba2eec5c7980">
-
+- <img src="https://qiita-user-contents.imgix.net/https%3A%2F%2Fimg.shields.io%2Fbadge%2F-Python-F2C63C.svg%3Flogo%3Dpython%26style%3Dfor-the-badge?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&s=c17144ccc12f9c19e9dbba2eec5c7980">
 - JavaScript
 
 
@@ -26,9 +28,7 @@
 | Django | 4.2.16|
 ## 使い方
 ## 今後の計画
-- Profile画像を設定する
 - Music, Thesisについて、データベースを参照する
-- Twitter連携
 ## 参考資料
 - [Auth - django-allauthを使用した認証](https://zenn.dev/mom/books/4c7430e6a7b321/viewer/76c6b9)
 - [allauth Quickstart](https://docs.allauth.org/en/dev/installation/quickstart.html)
