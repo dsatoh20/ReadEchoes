@@ -30,15 +30,22 @@
 ## 今後の計画
 - Music, Thesisについて、データベースを参照する
 ## 参考資料
+### django-allauthによるサードパーティーログイン
 - [Auth - django-allauthを使用した認証](https://zenn.dev/mom/books/4c7430e6a7b321/viewer/76c6b9)
 - [allauth Quickstart](https://docs.allauth.org/en/dev/installation/quickstart.html)
 - [【Django】Googleアカウントログインを実装 - 簡単4ステップで実現！](https://qiita.com/ryo-keima/items/29da18b0eb00ddc6e61a)
+- [django-allauth](https://github.com/pennersr/django-allauth/tree/main)
+### Django全般
 - [Django Documentation](https://docs.djangoproject.com/en/5.1/)
+### Bootstrapフレームワーク
 - [Bootstrap Document](https://getbootstrap.jp/docs/5.3/getting-started/introduction/)
+### APIを通じたDatabaseアクセス
 - [Books API document](https://developers.google.com/books/docs/v1/using)
 - [Reauests Quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/)
 - [TMDB API document](https://developer.themoviedb.org/reference/intro/getting-started)
-- [Webサイトの利用規約kiyaku.jp](https://kiyaku.jp/index.html)
+### Cloudinaryによる画像管理
 - [Cloudinary Python SDK](https://pypi.org/project/cloudinary/)
 - [django-cloudinary-storage](https://github.com/klis87/django-cloudinary-storage/tree/master)
+### ウェブサイト管理
 - [head内に書くべきタグを総まとめ：SEO対策に有効なものは？](https://saruwakakun.com/html-css/basic/head)
+- [Webサイトの利用規約kiyaku.jp](https://kiyaku.jp/index.html)
