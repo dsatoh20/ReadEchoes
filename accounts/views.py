@@ -131,3 +131,11 @@ def policy(request):
         'login_user': login_user,
     }
     return render(request, 'policy.html', params)
+
+@login_required
+def profile(request):
+    login_user = request.user
+    params = {
+        'login_user': login_user,
+    }
+    return render(request, 'accounts/profile.html', params)

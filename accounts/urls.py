@@ -17,4 +17,5 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('terms', views.terms, name='terms'),
     path('policy', views.policy, name='policy'),
+    path('profile/', views.profile, name='profile'),
 ]
