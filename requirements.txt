@@ -47,8 +47,8 @@ packaging==23.2
 pandas
 pillow
 pycparser==2.21
-pydantic==2.6.3
-pydantic_core==2.16.3
+pydantic
+pydantic_core
 PyJWT==2.10.1
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
