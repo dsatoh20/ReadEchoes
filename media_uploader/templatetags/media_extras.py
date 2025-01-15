@@ -9,14 +9,14 @@ def get_favicon():
     return img.image.url if img else ''
 @register.simple_tag
 def get_logo120():
-    img = StaticMedia.objects.filter(name='logo120').first().image
+    img = StaticMedia.objects.filter(name='logo120').first()
     return img.image.url if img else ''
 @register.simple_tag
 def get_logo256():
-    img = StaticMedia.objects.filter(name='logo256').first().image
+    img = StaticMedia.objects.filter(name='logo256').first()
     return img.image.url if img else ''
 @register.simple_tag
 def get_logo512():
-    img = StaticMedia.objects.filter(name='logo512').first().image
+    img = StaticMedia.objects.filter(name='logo512').first()
     return img.image.url if img else ''
     
