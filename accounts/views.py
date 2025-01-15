@@ -35,7 +35,7 @@ def createteam(request):
             team.owner = request.user
             team.save()
             print('successfully created a new team.')
-            messages.success('Successfully created a new team!')
+            messages.success(request, 'Successfully created a new team!')
     return redirect('/accounts/team')
     
     
