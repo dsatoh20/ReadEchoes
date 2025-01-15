@@ -46,7 +46,9 @@ def index(request):
 @login_required
 def post(request):
     login_user = request.user
-    if not login_user.team_members.all():
+    if login_user.team_members.all() or login_user.team_owner.all():
+        pass
+    else:
         messages.warning(request, 'Create or join a team first.')
         return redirect('/accounts/team')
     if request.method == 'POST':
