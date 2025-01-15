@@ -28,6 +28,11 @@ def index(request):
                 items = Book.objects.filter(team=Team.objects.get(id=selected))
         else:
             print(form.errors)
+        if str(items) == str(Book.objects.none()):
+            public_teams = Team.objects.filter(public=True).distinct()
+            items = Book.objects.filter(team__in=public_teams).distinct()
+            messages.info(request, 'No items. Public items are displayed.')
+            
     else:
         form = TeamSelectForm(user=login_user)
     params = {
