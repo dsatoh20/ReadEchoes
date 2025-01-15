@@ -41,3 +41,4 @@
 - [Webサイトの利用規約kiyaku.jp](https://kiyaku.jp/index.html)
 - [Cloudinary Python SDK](https://pypi.org/project/cloudinary/)
 - [django-cloudinary-storage](https://github.com/klis87/django-cloudinary-storage/tree/master)
+- [head内に書くべきタグを総まとめ：SEO対策に有効なものは？](https://saruwakakun.com/html-css/basic/head)
