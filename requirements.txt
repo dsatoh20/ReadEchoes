@@ -41,11 +41,11 @@ line-bot-sdk==3.9.0
 matplotlib==3.9.0
 multidict==6.0.5
 mysqlclient==2.2.4
-numpy==1.26.4
+numpy
 oauthlib==3.2.2
 packaging==23.2
 pandas
-pillow==10.2.0
+pillow
 pycparser==2.21
 pydantic==2.6.3
 pydantic_core==2.16.3

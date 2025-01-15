@@ -24,6 +24,7 @@ urlpatterns = [
     path('social-auth/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),
     path('', include('records.urls')),
+    path('media-uploader', include('media_uploader.urls')),
 ]
 
 if settings.DEBUG:

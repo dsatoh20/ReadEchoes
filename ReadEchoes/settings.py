@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage', # media fileだけを扱う場合は、staticfilesの後ろに置く
+    'cloudinary',
     
     'django.contrib.sites',
     'allauth',
@@ -59,7 +61,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
     
     'accounts',
-    'records'
+    'records',
+    'media_uploader',
+    
 ]
 
 MIDDLEWARE = [
@@ -157,8 +161,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR,]
 
-MEDIA_ROOT = MEDIA_DIR
-MEDIA_URL = '/media/'
+MEDIA_ROOT = MEDIA_DIR # 画像のアップロード先(開発中)
+'''CLOUDINARY_STORAGE  = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET')
+}''' # CLOUDINARY_URLが環境変数にあるときは、設定しなくて良い
+MEDIA_URL = '/media/' # 静的ファイルの配信
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
