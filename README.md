@@ -40,4 +40,4 @@
 - [TMDB API document](https://developer.themoviedb.org/reference/intro/getting-started)
 - [Webサイトの利用規約kiyaku.jp](https://kiyaku.jp/index.html)
 - [Cloudinary Python SDK](https://pypi.org/project/cloudinary/)
-- [](https://qiita.com/NOIZE/items/8420b9c54c185f828c49)
+- [django-cloudinary-storage](https://github.com/klis87/django-cloudinary-storage/tree/master)
