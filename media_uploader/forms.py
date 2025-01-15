@@ -6,3 +6,5 @@ class StaticMediaForm(ModelForm):
     class Meta:
         model = StaticMedia
         fields = '__all__'
+    def __str__(self):
+        return self.name

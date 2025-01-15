@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from media_uploader.models import StaticMedia
 from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm, MediumSelectForm
 from .models import Book, Like, Comment
 from accounts.models import User, Team
@@ -68,7 +69,8 @@ def post(request):
             
             print(f'img_pathは{book.img_path}')
             if book.img_path == '' or book.img_path == None: # img_pathが空欄なら、ロゴを埋めておく
-                book.img_path = '/media/logo256.png'
+                logo120 = StaticMedia.objects.filter(name='logo120').first()
+                book.img_path = logo120.image.url if logo120 else ''
                 messages.debug(request, 'set logo as image_path.')
             book.owner = login_user
             book.save()    

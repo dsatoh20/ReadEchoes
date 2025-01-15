@@ -7,7 +7,7 @@ from media_uploader.forms import StaticMediaForm
 @staff_member_required
 def upload_static_media(request):
     if request.method == 'POST':
-        form = StaticMediaForm(request.POST)
+        form = StaticMediaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, f'Successfully uploaded!')

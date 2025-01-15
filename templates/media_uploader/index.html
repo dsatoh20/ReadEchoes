@@ -2,9 +2,9 @@
 {% block title %}MediaUploader{% endblock %}
 {% block header %}MediaUploader{% endblock %}
 {% block content %}
-<form method="post" action="{% url 'media_uploader:index' %}">
+<form method="post" action="{% url 'media_uploader:index' %}" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
-    <button class="btn btn-success">Upload</button>
+    <button type="submit" class="btn btn-success">Upload</button>
 </form>
 {% endblock %}
