@@ -41,7 +41,7 @@
 - [Bootstrap Document](https://getbootstrap.jp/docs/5.3/getting-started/introduction/)
 ### APIを通じたDatabaseアクセス
 - [Books API document](https://developers.google.com/books/docs/v1/using)
-- [Reauests Quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/)
+- [Requests Quickstart](https://requests.readthedocs.io/en/latest/user/quickstart/)
 - [TMDB API document](https://developer.themoviedb.org/reference/intro/getting-started)
 ### Cloudinaryによる画像管理
 - [Cloudinary Python SDK](https://pypi.org/project/cloudinary/)
