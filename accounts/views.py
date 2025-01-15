@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView
 from .models import InviteTeam, Team, User
-from .forms import SignupForm, TeamForm, SearchUserForm
+from .forms import SignupForm, TeamForm, SearchUserForm, UserForm
 
 
 
@@ -135,7 +135,17 @@ def policy(request):
 @login_required
 def profile(request):
     login_user = request.user
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=login_user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully updated your profile!')
+        else:
+            print(form.errors)
+    else:
+        form = UserForm(instance=login_user)
     params = {
         'login_user': login_user,
+        'form':form,
     }
     return render(request, 'accounts/profile.html', params)

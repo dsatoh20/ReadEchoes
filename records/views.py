@@ -15,7 +15,10 @@ def index(request):
     login_user = request.user
     public_team = Team.objects.filter(public=True)
     items = get_available_items(login_user) if login_user.username != '' else Book.objects.filter(team__in=public_team).distinct()
-    
+    if str(items) == str(Book.objects.none()):
+            public_teams = Team.objects.filter(public=True).distinct()
+            items = Book.objects.filter(team__in=public_teams).distinct()
+            messages.info(request, 'No items. Public items are displayed.')
     if request.method == 'POST':
         form = TeamSelectForm(login_user, request.POST)
         if form.is_valid():
@@ -28,10 +31,7 @@ def index(request):
                 items = Book.objects.filter(team=Team.objects.get(id=selected))
         else:
             print(form.errors)
-        if str(items) == str(Book.objects.none()):
-            public_teams = Team.objects.filter(public=True).distinct()
-            items = Book.objects.filter(team__in=public_teams).distinct()
-            messages.info(request, 'No items. Public items are displayed.')
+        
             
     else:
         form = TeamSelectForm(user=login_user)
@@ -46,6 +46,9 @@ def index(request):
 @login_required
 def post(request):
     login_user = request.user
+    if not login_user.team_members.all():
+        messages.warning(request, 'Create or join a team first.')
+        return redirect('/accounts/team')
     if request.method == 'POST':
         form = BookForm(request.POST, login_user)
         if form.is_valid():

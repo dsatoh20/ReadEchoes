@@ -2,10 +2,31 @@
 {% block header %}Profile{% endblock %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-<ul>
-    <li>{{user.username}}</li>
-    <li>{{user.email}}</li>
-    <li>Joined {{user.created_at.date}}</li>
-</ul>
+
+<form class="comment-mw" method="post" enctype="multipart/form-data">
+    {% if login_user.image %}
+        <img src="{{login_user.image.url}}" alt="..." class="mb-3 rounded-1 profile-image mx-auto d-block border">
+    {% endif %}
+    {% csrf_token %}
+    <div class="input-group mb-1">
+        <label class="input-group-text">Username</label>
+        {{ form.username }}
+    </div>
+    <div class="text-warning mb-3">{{ form.username.errors }}</div>
+    <div class="input-group mb-1">
+        <label class="input-group-text">Email</label>
+        {{ form.email }}
+    </div>
+    <div class="text-warning mb-3">{{ form.email.errors }}</div>
+    <div class="input-group mb-3">
+        <label class="input-group-text">Profile image</label>
+        {{ form.image }}    
+    </div>
+    <div class="text-warning mb-3">{{ form.image.errors }}</div>
+    <div class="float-end">
+        <button type="submit" class="btn btn-success mb-3">Update</button>
+    </div>
+    
+</form>
 <a class="btn btn-secondary" href="{% url 'accounts:logout' %}">Logout</a>
 {% endblock %}

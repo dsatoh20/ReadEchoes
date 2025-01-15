@@ -3,6 +3,8 @@ from django.contrib.auth.models import (BaseUserManager,
                                         AbstractBaseUser,
                                         PermissionsMixin)
 from django.utils.translation import gettext_lazy as _
+from PIL import Image
+import io
 
 
 class UserManager(BaseUserManager):
@@ -50,6 +52,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         null=True,
         blank=True,
     )
+    
+    image = models.ImageField(upload_to='profile/', blank=True)
+    
     is_superuser = models.BooleanField(
         verbose_name=_("is_superuer"),
         default=False
@@ -97,3 +102,18 @@ class InviteTeam(models.Model):
     
     def __str__(self):
         return str(self.owner) + 'joined' + str(self.team)
+    
+# 画像処理のための関数
+def expand2square(pil_img, background_color=0):
+    # マージンを追加して正方形にする
+    width, height = pil_img.size
+    if width == height:
+        return pil_img
+    elif width > height:
+        result = Image.new(pil_img.mode, (width, width), background_color)
+        result.paste(pil_img, (0, (width - height) // 2))
+        return result
+    else:
+        result = Image.new(pil_img.mode, (height, height), background_color)
+        result.paste(pil_img, ((height - width) // 2, 0))
+        return result

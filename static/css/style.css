@@ -78,3 +78,20 @@ body {
     max-width: 400px;
     overflow: hidden;
 }
+
+/*profile画像*/
+.profile-image {
+    width: auto;
+    height: 200px;
+}
+.icon-image {
+    width: 32px;
+    height: 32px;
+}
+.icon-sm {
+    width: 18px;
+    height: 18px;
+}
+svg {
+    fill: #adb5bd;
+}

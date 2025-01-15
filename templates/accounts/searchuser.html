@@ -10,10 +10,14 @@
     <div class="mt-1 mb-3 ms-3 text-body-secondary">{{team.description}}</div>
     <div class="mt-1 ms-3 text-start w-100 text-body-secondary">
         Leader: 
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle ms-1" viewBox="0 0 16 16">
+        {% if team.owner.image %}
+            <img src="{{team.owner.image.url}}" alt="..." class="rounded-circle icon-sm border ms-1">
+        {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-person-circle ms-1" viewBox="0 0 16 16">
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
         </svg>
+        {% endif %}
         {{team.owner}}
     </div>
     <div class="mt-1 mb-3 ms-3 text-start w-100 text-body-secondary">Founding date:  {{team.found_date.date}}</div>
@@ -22,10 +26,14 @@
         <ul>
             {% for item in items %}
             <li>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle me-1" viewBox="0 0 16 16">
+                {% if item.image %}
+                        <img src="{{item.image.url}}" alt="..." class="rounded-circle icon-sm border me-1">
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-person-circle me-1" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                 </svg>
+                {% endif %}
                 {{item.username}}
             </li>
             {% empty %}
@@ -50,10 +58,14 @@
                 {% if hit %}
                 <div class="m-3 hstack gap-3">
                     <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle me-1" viewBox="0 0 16 16">
+                        {% if hit.image %}
+                            <img src="{{hit.image.url}}" alt="..." class="rounded-circle icon-sm border me-1">
+                        {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-person-circle me-1" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                         </svg>
+                        {% endif %}
                         {{ hit.username }}
                     </div>
                     
