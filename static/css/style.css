@@ -95,3 +95,17 @@ body {
 svg {
     fill: #adb5bd;
 }
+/*aboutページ*/
+.big-size {
+    font-size: calc(64px + (46 * ((100vw - 375px) / 1225)));
+    line-height: 100%;
+    display: block;
+}
+.medium-size {
+    font-size: calc(48px + (16 * ((100vw - 375px) / 1225)));
+    line-height: 100%;
+    display: block;
+}
+.about-container {
+    height: 100vh;
+}

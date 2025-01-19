@@ -1,8 +1,37 @@
 {% extends 'base.html' %}
-{% block title %}About{% endblock %}
+{% load media_extras %}
+{% block title %}About ReadEchoes{% endblock %}
 
-{% block header %}What is <p class="font-monospace d-inline">ReadEchoes</p>?{% endblock %}
+{% block header %}{% endblock %}
 
 {% block content %}
 <div class=""></div>
+<div class="d-flex ps-3 pe-3 about-container">
+    <div class="w-50 big-size p-5"><p>Curate your <br>self</p></div>
+    <div class="w-50"><img src="{% get_moodboard %}" alt="..." class="w-100"></div>
+</div>
+<div class="d-flex ps-3 pe-3 about-container">
+    <div class="w-50"><img src="{% get_mockup_home %}" alt="..." class="w-100"></div>
+    <div class="w-50 big-size p-5"><p>and explore your biases</p></div>
+</div>
+<div class="d-flex about-container">
+    <div class="w-50">
+        <p class="medium-size p-5">Post Your Reading <br>Experience</p>
+        <p class="fs-5 p-5 font-monospace">Share your experiences with <br>books, movies, thesis, music, articles 
+            <br>and so on.<br>Don't be ashemed. We offer you a precious<br> opportunity to improve yourself.</p>
+    </div>
+    <div class="w-50"><img src="{% get_mockup_post %}" alt="..." class="w-100"></div>
+</div>
+<div class="d-flex about-container">
+    <div class="w-50">
+        <p class="medium-size p-5">Discuss Your <br>Prejudices</p>
+        <p class="fs-5 p-5 font-monospace">Create your team and comment on posts, <br>and you'll learn more about your experiences.</p>
+    </div>
+    <div class="w-50"><img src="{% get_mockup_record %}" alt="" class="w-100"></div>
+</div>
+<div class="m-5 h-50">
+    <div class="d-flex justify-content-center"><p class="medium-size">Start ReadEchoes.</p></div>
+    <div class="d-flex justify-content-center"><a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg m-2">Login / SignUp</a></div>
+    
+</div>
 {% endblock %}
