@@ -12,6 +12,15 @@
     <link rel="icon" href="{% get_favicon %}">
     <link rel="apple-touch-icon-precomposed" href="{% get_logo120 %}" />
     <meta name="google-site-verification" content="m-SZlXAqcmqPVQRudjZdsq5BVfIQBJj-9Gyd_fpuPTg" />
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "44cf4a74-e6c7-4f1c-840c-f4223d3dd5fa",
+        });
+      });
+    </script>
 </head>
 <main class="">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden p-0 align-middle">
