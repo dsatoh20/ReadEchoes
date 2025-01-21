@@ -29,6 +29,8 @@
 ## 使い方
 ## 今後の計画
 - Music, Thesisについて、データベースを参照する
+- 新規投稿を通知する
+- Teamへの招待コードを送信する
 ## 参考資料
 ### django-allauthによるサードパーティーログイン
 - [Auth - django-allauthを使用した認証](https://zenn.dev/mom/books/4c7430e6a7b321/viewer/76c6b9)
