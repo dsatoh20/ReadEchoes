@@ -247,7 +247,7 @@ def edit(request, book_id):
 """
 def get_available_items(user):
     if user.username != '':
-        available_teams = Team.objects.filter(members=user).distinct()
+        available_teams = Team.objects.filter(Q(members=user)|Q(owner=user)).distinct()
         available_items = Book.objects.filter(Q(owner=user)|Q(team__in=available_teams)).distinct()
     else:
         available_items = Book.objects.none()
