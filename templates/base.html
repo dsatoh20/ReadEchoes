@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     <meta name="description" content="ReadEchoes is an sns app to share your experience with your friends." />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -26,7 +27,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8076623221551819"
      crossorigin="anonymous"></script>
 </head>
-<main class="">
+<main class="wrapper">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden p-0 align-middle">
         <div class="container-fluid">
           <a class="navbar-brand ms-1 font-monospace" href="{% url 'records:index' %}"><img src="{% get_logo120 %}" alt="..." class="header-logo me-3">ReadEchoes</a>
@@ -40,7 +41,7 @@
               <a class="nav-link" href="{% url 'records:portfolio' %}">Library</a>
             </div>
           </div>
-          <div class="d-grid gap-2 d-md-flex justify-content-md-end navbar-end">
+          <div class="d-flex justify-content-md-end navbar-end">
             {% if request.user.username != '' %}
             <a href="{% url 'accounts:profile' %}" class="">
               {% if login_user.image %}
@@ -69,7 +70,7 @@
           </div>
         </div>
     </nav>
-    <div class="main overflow-y-scroll position-absolute vw-100 mt-1 mb-1">
+    <div class="main overflow-y-scroll w-100 mt-1 mb-1 h-100">
       <div class="header container-fluid mt-3 mb-3 ps-3"><h3>{% block header %}{% endblock %}</h3></div>
       <div class="container-fluid mt-5 mb-3 w-100 ps-3">
         {% if messages %}
@@ -82,7 +83,7 @@
         {% block content %}{% endblock %}
       </div>  
     </div>
-    <footer class="footer mt-auto fixed-bottom bg-body-tertiary d-flex pt-1 ps-3 pe-3 overflow-hidden">
+    <footer class="footer mt-auto bg-body-tertiary d-flex pt-1 ps-3 pe-3">
       <div class="copyright p-2 flex-grow-1">© 2025 Project Y. All Rights Reserved.</div>
       <ul class="float-end d-flex me-3">
         <li class="d-inline p-2"><a href="{% url 'accounts:about' %}" class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">About</a></li>

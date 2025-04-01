@@ -1,6 +1,15 @@
+html {
+    height: 100%;
+}
 body {
     font-family: BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     line-height: 1.5rem;
+    height: 100%;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 /* mainカラー */
 .main-color {
@@ -43,18 +52,15 @@ body {
     fill: #adb5bd;
 }
 .main {
-    top: 42px;
+    padding-top: 42px;
     bottom: 54px;
     min-width: 700px;
     overflow-x: scroll;
     overflow: hidden;
 }
-
 .footer {
     height: 54px;
     min-width: 700px;
-    overflow-x: scroll;
-    overflow: hidden;
 }
 .card-container {
     width: 200px;
