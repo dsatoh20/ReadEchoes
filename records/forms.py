@@ -24,10 +24,10 @@ class BookForm(ModelForm):
                                               'type': 'range',
                                               'min': 1,
                                               'max': 10}),
-            'summary': forms.Textarea(attrs={'class': 'form-control',
+            'summary': forms.Textarea(attrs={'class': 'form-control h-50',
                                              'placeholder': 'Type a summary for this book here...',
                                              'id': 'floatingTextarea'}),
-            'report': forms.Textarea(attrs={'class': 'form-control',
+            'report': forms.Textarea(attrs={'class': 'form-control h-50',
                                             'placeholder': 'Type your view for this book here ...',
                                             'id': 'floatingTextarea'}),
         }
