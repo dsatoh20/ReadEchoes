@@ -11,7 +11,7 @@ medium_choices = [(1, 'Book'), (2, 'Movie'), (3, 'Music'), (4, 'Thesis') ,(0, 'O
 class BookForm(ModelForm):
     class Meta:
         model = Book
-        fields = ['team', 'info_medium', 'title', 'first_author', 'score', 'summary', 'report']
+        fields = ['team', 'info_medium', 'title', 'first_author', 'pub_year', 'link', 'completed', 'score', 'summary', 'report']
         widgets = {
             'team': forms.Select(attrs={'class': 'form-select'}),
             'info_medium': forms.Select(choices=medium_choices,
@@ -20,6 +20,12 @@ class BookForm(ModelForm):
                                             'placeholder': 'Type or paste a book title here...'}),
             'first_author': forms.TextInput(attrs={'class': 'form-control',
                                                    'placeholder': 'Type or paste its first author name here...'}),
+            'pub_year': forms.NumberInput(attrs={'class': 'form-control',
+                                                  'placeholder': 'Publication year'}),
+            'link': forms.URLInput(attrs={'class': 'form-control',
+                                          'placeholder': 'Type or paste a url here...'}),
+            'completed': forms.CheckboxInput(attrs={'class': 'form-check-input',
+                                                  'placeholder': 'Read to the end'}),
             'score': forms.NumberInput(attrs={'class': 'form-range', 
                                               'type': 'range',
                                               'min': 1,
@@ -40,7 +46,7 @@ class BookForm(ModelForm):
 class BookUpdateForm(ModelForm):
     class Meta:
         model = Book
-        fields = ['team', 'info_medium', 'title', 'first_author', 'pub_year', 'score', 'summary', 'report']
+        fields = ['team', 'info_medium', 'title', 'first_author', 'pub_year', 'link', 'completed', 'score', 'summary', 'report']
         
         widgets = {
             'team': forms.Select(attrs={'class': 'form-select'}),
@@ -52,6 +58,10 @@ class BookUpdateForm(ModelForm):
                                                    'placeholder': 'Type or paste its first author name here...'}),
             'pub_year': forms.NumberInput(attrs={'class': 'form-control',
                                                   'placeholder': 'Publication year'}),
+            'link': forms.URLInput(attrs={'class': 'form-control',
+                                          'placeholder': 'Type or paste a link here...'}),
+            'completed': forms.CheckboxInput(attrs={'class': 'form-check-input',
+                                                  'placeholder': 'Read to the end'}),
             'score': forms.NumberInput(attrs={'class': 'form-range', 
                                               'type': 'range',
                                               'min': 1,

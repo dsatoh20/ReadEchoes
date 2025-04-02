@@ -20,7 +20,9 @@ class Book(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
     info_medium = models.PositiveIntegerField(default=0) # 0 as Others, 1 as Book, 2 as Movie, 3 as Music, 4 as Thesis
-    
+    link = models.URLField(max_length=200, blank=True, null=True)
+    completed = models.BooleanField(default=False)
+
     def __str__(self):
         return str(self.title) + '/' + str(self.first_author)
     def auto_fill(self): # title, first_authorでGoogleBooks検索、img_path, pub_year, summaryを取得
