@@ -29,45 +29,43 @@
 </head>
 <main class="wrapper">
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top overflow-hidden p-0 align-middle">
-        <div class="container-fluid">
-          <a class="navbar-brand ms-1 font-monospace" href="{% url 'records:index' %}"><img src="{% get_logo120 %}" alt="..." class="header-logo me-3">ReadEchoes</a>
+        <div class="container-fluid mb-1 mt-1">
           <button class="navbar-toggler fs-6" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+          <a class="navbar-brand ms-1 font-monospace" href="{% url 'records:index' %}"><img src="{% get_logo120 %}" alt="..." class="header-logo me-3">ReadEchoes</a>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
               <a class="nav-link" aria-current="page" href="{% url 'records:index' %}">Home</a>
               <a class="nav-link" href="{% url 'accounts:team' %}">Team</a>
               <a class="nav-link" href="{% url 'records:portfolio' %}">Library</a>
-            </div>
-          </div>
-          <div class="d-flex justify-content-md-end navbar-end">
-            {% if request.user.username != '' %}
-            <a href="{% url 'accounts:profile' %}" class="">
-              {% if login_user.image %}
-                <img src="{{login_user.image.url}}" alt="..." class="rounded-circle icon-image border">
+              {% if request.user.username != '' %}
+              <a href="{% url 'accounts:profile' %}" class="nav-link">
+                Account
+                {% if login_user.image %}
+                  <img src="{{login_user.image.url}}" alt="..." class="rounded-circle icon-image border">
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-person-circle" viewBox="0 0 16 16">
+                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
+                {% endif %}
+              </a>
               {% else %}
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" class="bi bi-person-circle" viewBox="0 0 16 16">
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-              </svg>
+              <a href="{% url 'accounts:login' %}" class="nav-link">Account</a>
               {% endif %}
-            </a>
-            {% else %}
-            <a href="{% url 'accounts:login' %}" class="btn btn-secondary btn-sm">Login / SignUp</a>
-            {% endif %}
-            <nav class="navbar bg-body-tertiary">
-              <form class="container-fluid justify-content-start">
-                <a class="btn btn-success btn-sm pe-3" href="{% url 'records:post' %}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square pe-1" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                  </svg>
-                  Post
-                </a>
-              </form>
-            </nav>
           </div>
+          
+          </div>
+          <form class="d-flex">
+            <a class="btn btn-success btn-sm pe-3" href="{% url 'records:post' %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square pe-1" viewBox="0 0 16 16">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+              </svg>
+              Post
+            </a>
+          </form>
         </div>
     </nav>
 

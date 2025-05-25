@@ -44,7 +44,7 @@
                 </div>
                 {% include 'records/like-component.html' with like_count=item.good_count liked_items=liked_items record=item %} 
             </div>
-            <small class="text-body-secondary mt-3 d-block">{{item.edit_date}}</small>
+            <small class="text-body-secondary mt-3 d-block">{{item.edit_date.date}}</small>
         </div>
     </div>
 </div>
