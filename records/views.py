@@ -242,6 +242,20 @@ def edit(request, book_id):
     }
     return render(request, 'records/edit.html', params)
 
+@login_required
+def delete(request, book_id):
+    login_user = request.user
+    record = Book.objects.get(id=book_id)
+    if record.owner != login_user:
+        # ownerだけが削除できる
+        messages.warning(request, 'No permission to delete this record.')
+        return redirect(f'/record/{book_id}')
+    else:
+        record.delete()
+        messages.success(request, 'Successfully deleted!')
+        return redirect('/portfolio')
+    
+
 """
 ただの関数below
 """

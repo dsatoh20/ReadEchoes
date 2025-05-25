@@ -66,10 +66,10 @@ class BookUpdateForm(ModelForm):
                                               'type': 'range',
                                               'min': 1,
                                               'max': 10}),
-            'summary': forms.Textarea(attrs={'class': 'form-control',
+            'summary': forms.Textarea(attrs={'class': 'form-control h-50',
                                              'placeholder': 'Type a summary for this book here...',
                                              'id': 'floatingTextarea'}),
-            'report': forms.Textarea(attrs={'class': 'form-control',
+            'report': forms.Textarea(attrs={'class': 'form-control h-50',
                                             'placeholder': 'Type your view for this book here ...',
                                             'id': 'floatingTextarea'}),
         }
@@ -86,7 +86,8 @@ class CommentForm(ModelForm):
         widgets = {
             'content': forms.Textarea(attrs={'class': 'form-control',
                                              'placeholder': 'Type a comment within 140 characters...',
-                                             'id': 'floatingTextarea'}),
+                                             'id': 'floatingTextarea',
+                                             }),
         }
         
 class TeamSelectForm(forms.Form):
