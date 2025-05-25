@@ -3,7 +3,7 @@
 
 {% block header %}Edit{% endblock %}
 {% block content %}
-<div class="container-fluid mt-3 p-3 my-mw">
+<div class="container-fluid mt-3 p-3">
     <form method="post" action="{% url 'records:edit' item.id %}" class="mt-3 needs-validation" novalidate>
         {% csrf_token %}
         <div class="mt-3">

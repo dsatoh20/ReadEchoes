@@ -54,16 +54,12 @@ body {
 .main {
     padding-top: 42px;
     bottom: 54px;
-    min-width: 700px;
+    width: 100%;
     overflow-x: scroll;
     overflow: hidden;
 }
-.footer {
-    height: 54px;
-    min-width: 700px;
-}
 .card-container {
-    width: 200px;
+    min-width: 200px;
 }
 .frontcover-container {
     width: 200px;
@@ -78,11 +74,6 @@ body {
 }
 .card-header {
     text-align: center;
-}
-.comment-mw {
-    min-width: 400;
-    max-width: 400px;
-    overflow: hidden;
 }
 
 /*profile画像*/

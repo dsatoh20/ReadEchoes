@@ -9,7 +9,8 @@ Teams
 {% endblock %}
 {% block content %}
     <!--チーム一覧-->
-    <table class="table table-hover mt-3 mb-5">
+    <div class="table-responsive mt-3 mb-5">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -63,9 +64,10 @@ Teams
             {% endfor %}
         </tbody>
     </table>
+    </div>
     
     <!--チーム作成フォーム-->
-    <div class="comment-mw shadow p-3 mb-2 bg-body-tertiary rounded">
+    <div class="shadow p-3 mb-2 bg-body-tertiary rounded" style="max-width:400px;">
         <h4 class="mt-1 ms-3">Create a new team</h4>
         <form action="{% url 'accounts:createteam' %}" method="post" class="m-3">
             {% csrf_token %}

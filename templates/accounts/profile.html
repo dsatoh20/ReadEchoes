@@ -2,8 +2,8 @@
 {% block header %}Profile{% endblock %}
 {% block title %}Profile{% endblock %}
 {% block content %}
-
-<form class="comment-mw" method="post" enctype="multipart/form-data">
+<div class="d-flex justify-content-center flex-column">
+<form class="mb-5" method="post" enctype="multipart/form-data" style="max-width: 400px;">
     {% if login_user.image %}
         <img src="{{login_user.image.url}}" alt="..." class="mb-3 rounded-1 profile-image mx-auto d-block border">
     {% endif %}
@@ -23,10 +23,10 @@
         {{ form.image }}    
     </div>
     <div class="text-warning mb-3">{{ form.image.errors }}</div>
-    <div class="float-end">
-        <button type="submit" class="btn btn-success mb-3">Update</button>
-    </div>
+    <button type="submit" class="btn btn-success mb-3 w-100">Update</button>
     
 </form>
-<a class="btn btn-secondary" href="{% url 'accounts:logout' %}">Logout</a>
+
+<a class="btn btn-secondary" style="max-width: 400px;" href="{% url 'accounts:logout' %}">Logout</a>
+</div>
 {% endblock %}
