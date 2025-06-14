@@ -40,7 +40,7 @@
               <a class="nav-link" href="{% url 'accounts:team' %}">Group</a>
               <a class="nav-link" href="{% url 'records:portfolio' %}">Portfolio</a>
               {% if request.user.username != '' %}
-              <a href="{% url 'accounts:profile' %}" class="nav-link">
+              <a href="{% url 'accounts:profile' %}" class="nav-link d-flex align-items-center gap-2">
                 Account
                 {% if login_user.image %}
                   <img src="{{login_user.image.url}}" alt="..." class="rounded-circle icon-image border">
