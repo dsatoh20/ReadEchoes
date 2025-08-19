@@ -19,7 +19,7 @@
 </div>
 {% endif %}
 <div class="mt-3">
-    <form action="{% url 'records:index' %}" class="input-group ps-1" method="post" style="max-width: 400px;">
+    <form action="{% url 'records:index' %}" class="input-group ps-1" method="get" style="max-width: 400px;">
         {% csrf_token %}
         {{form.team}}
         <button type="submit" class="btn btn-secondary">
@@ -31,7 +31,10 @@
     </form>
     
     <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 mt-3">
-        {% include 'records/card-component.html' with items=items liked_items=liked_items %}
+        {% include 'records/card-component.html' with items=page_obj liked_items=liked_items %}
+    </div>
+    <div class="mt-3">
+        {% include 'records/paginator-component.html' with page_obj=page_obj %}
     </div>
 </div>
 {% endblock %}

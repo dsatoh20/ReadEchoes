@@ -1,13 +1,17 @@
+import os
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from media_uploader.models import StaticMedia
 from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm, MediumSelectForm
 from .models import Book, Like, Comment
 from accounts.models import User, Team
+
+page_contents_num = os.getenv('PAGE_CONTENTS_NUM', 2)
 
 
 # Create your views here.
@@ -15,31 +19,33 @@ def index(request):
     login_user = request.user
     public_team = Team.objects.filter(public=True)
     items = get_available_items(login_user) if login_user.username != '' else Book.objects.filter(team__in=public_team).distinct()
-    if str(items) == str(Book.objects.none()):
+    
+    selected_team = request.GET.get('team', None) # team idが格納される
+
+    if str(items) == str(Book.objects.none()) or selected_team == '-':
             public_teams = Team.objects.filter(public=True).distinct()
             items = Book.objects.filter(team__in=public_teams).distinct()
             messages.info(request, 'No items. Public items are displayed.')
-    if request.method == 'POST':
-        form = TeamSelectForm(login_user, request.POST)
-        if form.is_valid():
-            selected = form.cleaned_data['team']
-            print(selected)
-            if selected == 'Public':
-                public_teams = Team.objects.filter(public=True).distinct()
-                items = Book.objects.filter(team__in=public_teams).distinct()
-            elif selected != 'All':
-                items = Book.objects.filter(team=Team.objects.get(id=selected))
-        else:
-            print(form.errors)
-        
-            
     else:
-        form = TeamSelectForm(user=login_user)
+
+        if selected_team == 'Public':
+            public_teams = Team.objects.filter(public=True).distinct()
+            items = Book.objects.filter(team__in=public_teams).distinct()
+        elif selected_team != 'All':
+            items = Book.objects.filter(team_id=selected_team)
+
+    form = TeamSelectForm(user=login_user, initial=request.GET)
+
+    # pagination
+    paginator = Paginator(items.order_by('-id'), page_contents_num)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
+
     params = {
         'login_user' : login_user,
-        'items': items,
+        'page_obj': page_obj,
         'liked_items': get_liked_items(login_user),
-        'form': TeamSelectForm(login_user),
+        'form': form,
     }
     return render(request, 'index.html', params)
 
@@ -163,19 +169,22 @@ def record(request, book_id):
 def portfolio(request):
     login_user = request.user
     items = Book.objects.filter(owner=login_user) if login_user.username != '' else Book.objects.none()
-    if request.method=='POST':
-        form = MediumSelectForm(request.POST)
-        if form.is_valid():
-            selected = form.cleaned_data['info_medium']
-            if selected != 'All':
-                items = Book.objects.filter(owner=login_user).filter(info_medium=selected)
-        else:
-            print(form.errors)
-    else:
-        form = MediumSelectForm()
+
+    selected_media = request.GET.get('info_medium', 'All')
+
+    if selected_media != 'All':
+            items = Book.objects.filter(owner=login_user).filter(info_medium=selected_media)
+
+    # pagination
+    paginator = Paginator(items.order_by('-id'), page_contents_num)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
+
+    form = MediumSelectForm(initial=request.GET)
+
     params = {
         'login_user': login_user,
-        'items': items,
+        'page_obj': page_obj,
         'liked_items': get_liked_items(login_user),
         'form': form,
     }
