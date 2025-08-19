@@ -11,7 +11,7 @@ from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm,
 from .models import Book, Like, Comment
 from accounts.models import User, Team
 
-page_contents_num = os.getenv('PAGE_CONTENTS_NUM', 2)
+page_contents_num = int(os.getenv('PAGE_CONTENTS_NUM', 2))
 
 
 # Create your views here.
@@ -22,7 +22,7 @@ def index(request):
     
     selected_team = request.GET.get('team', None) # team idが格納される
 
-    if str(items) == str(Book.objects.none()) or selected_team == '-':
+    if str(items) == str(Book.objects.none()) or selected_team == '-' or selected_team == None:
             public_teams = Team.objects.filter(public=True).distinct()
             items = Book.objects.filter(team__in=public_teams).distinct()
             messages.info(request, 'No items. Public items are displayed.')
