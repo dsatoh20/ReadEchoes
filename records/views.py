@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
 
 from media_uploader.models import StaticMedia
 from records.forms import BookForm, BookUpdateForm, CommentForm, TeamSelectForm, MediumSelectForm
@@ -12,6 +13,7 @@ from .models import Book, Like, Comment
 from accounts.models import User, Team
 
 page_contents_num = int(os.getenv('PAGE_CONTENTS_NUM', 2))
+CANONICAL_HOSTNAME = os.getenv('CANONICAL_HOSTNAME', 'localhost:8000')
 
 
 # Create your views here.
@@ -91,6 +93,22 @@ def post(request):
             book.owner = login_user
             book.save()    
             messages.success(request, 'Successfully posted a new record!')
+            try:
+                # メール送信
+                send_mail(
+                    f"<ReadEchoes>{book.owner.username} is waiting for your feedback!",
+                    f"A new record has been posted by {book.owner.username} ({book.team.title}).\n\n\
+                    Record owner: {book.owner.username}\n\
+                    Record: {book.first_author}. {book.title}. {book.pub_year}.\n\
+                    Click the link below to leave a comment: \n\n\
+                    https://{CANONICAL_HOSTNAME}/record/{book.id}",
+                    "support@readechoes.com",
+                    [book.team.owner.email] + [member.email for member in book.team.members.all()],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f'Failed to send email...Err: {e}')
+                # messages.warning(request, 'Failed to send email notification.')
             return redirect('/')
         else:
             print(form.errors)
@@ -150,6 +168,24 @@ def record(request, book_id):
             comment.book = record
             comment.save()
             messages.success(request, 'Successfully commented.')
+            try:
+                # メール送信
+                send_mail(
+                    f"<ReadEchoes>{comment.owner.username} left a comment!",
+                    f"A new comment has been posted by {comment.owner.username} ({record.team.title}).\n\n\
+                    Record owner: {record.owner.username}\n\
+                    Record: {record.first_author}. {record.title}. {record.pub_year}.\n\
+                    Comment owner: {comment.owner.username}\n\
+                    Comment: {comment.content}\n\n\
+                    Click the link below to join the discussion: \n\
+                    https://{CANONICAL_HOSTNAME}/record/{record.id}",
+                    "support@readechoes.com",
+                    [record.team.owner.email] + [member.email for member in record.team.members.all()],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f'Failed to send email...Err: {e}')
+                # messages.warning(request, 'Failed to send email notification.')
             return redirect(f'/record/{book_id}')
         else:
             messages.debug(form.errors)
@@ -211,6 +247,24 @@ def reply(request, book_id, comment_id):
             reply.reply_id = comment_id # 返信先コメントと紐づけ
             reply.save()
             messages.success(request, 'Successfully replied.')
+            try:
+                # メール送信
+                send_mail(
+                    f"<ReadEchoes>{reply.owner.username} left a comment!",
+                    f"A new comment has been posted by {reply.owner.username} in {record.team.title}.\n\n\
+                    Record owner: {record.owner.username}\n\
+                    Record: {record.first_author}. {record.title}. {record.pub_year}.\n\
+                    Comment owner: {reply.owner.username}\n\
+                    Comment: {reply.content}\n\n\
+                    Click the link below to join the discussion: \n\
+                    https://{CANONICAL_HOSTNAME}/record/{record.id}",
+                    "support@readechoes.com",
+                    [record.team.owner.email] + [member.email for member in record.team.members.all()],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                print(f'Failed to send email...Err: {e}')
+                # messages.warning(request, 'Failed to send email notification.')
             return redirect(f'/record/{book_id}/reply/{comment_id}')
         else:
             messages.debug(request, form.errors)
