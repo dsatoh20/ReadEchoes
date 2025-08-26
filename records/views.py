@@ -19,21 +19,16 @@ CANONICAL_HOSTNAME = os.getenv('CANONICAL_HOSTNAME', 'localhost:8000')
 # Create your views here.
 def index(request):
     login_user = request.user
-    public_team = Team.objects.filter(public=True)
-    items = get_available_items(login_user) if login_user.username != '' else Book.objects.filter(team__in=public_team).distinct()
     
     selected_team = request.GET.get('team', None) # team idが格納される
-
-    if str(items) == str(Book.objects.none()) or selected_team == '-' or selected_team == None:
-            public_teams = Team.objects.filter(public=True).distinct()
-            items = Book.objects.filter(team__in=public_teams).distinct()
-            messages.info(request, 'No items. Public items are displayed.')
-    else:
-
-        if selected_team == 'Public':
-            public_teams = Team.objects.filter(public=True).distinct()
-            items = Book.objects.filter(team__in=public_teams).distinct()
-        elif selected_team != 'All':
+    if selected_team is None: # 初回アクセス時
+        items = get_available_items(login_user)
+    else: # form送信時
+        if selected_team == '-':
+            items = get_available_items(login_user)
+        elif selected_team == 'Public':
+            items = Book.objects.filter(team__public=True).distinct()
+        else: # teamが選択された場合
             items = Book.objects.filter(team_id=selected_team)
 
     form = TeamSelectForm(user=login_user, initial=request.GET)
@@ -323,11 +318,12 @@ def delete(request, book_id):
 ただの関数below
 """
 def get_available_items(user):
-    if user.username != '':
-        available_teams = Team.objects.filter(Q(members=user)|Q(owner=user)).distinct()
+    if user.username: # ログイン中
+        print('ログイン中')
+        available_teams = Team.objects.filter(Q(members=user)|Q(owner=user)|Q(public=True)).distinct()
         available_items = Book.objects.filter(Q(owner=user)|Q(team__in=available_teams)).distinct()
-    else:
-        available_items = Book.objects.none()
+    else: # 未ログイン
+        available_items = Book.objects.filter(team__public=True).distinct()
     return available_items
 
 def get_liked_items(user):

@@ -94,7 +94,7 @@ class TeamSelectForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         available_teams = Team.objects.filter(Q(members=user)|Q(owner=user)).distinct() if user.username != '' else Team.objects.none()
-        choices = [('-', '-')] + [('All', 'All')] + [(team.id, team.title) for team in \
+        choices = [('-', '-')] + [(team.id, team.title) for team in \
                 available_teams] + [('Public', 'Public')]
         self.fields['team'] = forms.ChoiceField(
             choices=choices,
