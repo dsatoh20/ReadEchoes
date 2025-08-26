@@ -8,7 +8,7 @@ Portfolio
 </svg>
 {% endblock %}
 {% block content %}
-<div class="fs-6 mb-3">You have posted {{items.count}} records since you joined {{user.created_at.date}}.</div>
+<div class="fs-6 mb-3">You have posted {{n_items}} records since you joined {{user.created_at.date}}.</div>
 <div class="">
     <form method="get" action="{% url 'records:portfolio' %}" class="">
         {% csrf_token %}

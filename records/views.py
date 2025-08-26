@@ -216,6 +216,7 @@ def portfolio(request):
     params = {
         'login_user': login_user,
         'page_obj': page_obj,
+        'n_items': items.count,
         'liked_items': get_liked_items(login_user),
         'form': form,
     }
