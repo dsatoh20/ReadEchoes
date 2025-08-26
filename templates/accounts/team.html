@@ -67,7 +67,7 @@ Group
     </div>
     
     <!--チーム作成フォーム-->
-    <div class="shadow p-3 mb-2 bg-body-tertiary rounded" style="max-width:400px;">
+    <div class="shadow p-3 mb-2 bg-body-tertiary rounded mx-auto" style="max-width:400px;">
         <h4 class="mt-1 ms-3">Create a new group</h4>
         <form action="{% url 'accounts:createteam' %}" method="post" class="m-3">
             {% csrf_token %}
