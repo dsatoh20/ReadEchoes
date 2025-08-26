@@ -27,7 +27,7 @@ Group
             {% for item in items %}
             <tr>
                 <th scope="row">{{item.id}}</th>
-                <td><a href="{% url 'accounts:searchuser' item.id %}" class="main-color link-underline link-underline-opacity-0">{{item.title}}</a></td>
+                <td>{{item.title}}</td>
                 <td><a href="{% url 'records:index' %}?team={{item.id}}" class="btn btn-outline-secondary btn-sm">View posts</a></td>
                 <td>
                     {% if item.owner.image %}
@@ -43,11 +43,7 @@ Group
                 <td class="text-truncate">{{item.description}}</td>
                 <td>{{item.members.count}}</td>
                 <td>
-                    {% if item.owner == login_user %}
                     <a href="{% url 'accounts:searchuser' item.id %}" class="btn btn-outline-secondary btn-sm">Member list</a>
-                    {% else %}
-                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Add members</button>
-                    {% endif %}
                 </td>
                 <td>
                     {% if item.public %}
