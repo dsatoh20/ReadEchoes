@@ -30,6 +30,7 @@ def index(request):
             items = Book.objects.filter(team__public=True).distinct()
         else: # teamが選択された場合
             items = Book.objects.filter(team_id=selected_team)
+            messages.info(request, f'Filtered by Group: {Team.objects.get(id=selected_team).title}')
 
     form = TeamSelectForm(user=login_user, initial=request.GET)
 

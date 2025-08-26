@@ -15,7 +15,8 @@ Group
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
-            <th scope="col">Leader</th>
+            <th scope="col"></th>
+            <th scope="col">Owner</th>
             <th scope="col">Description</th>
             <th scope="col">Members</th>
             <th scope="col"></th>
@@ -27,6 +28,7 @@ Group
             <tr>
                 <th scope="row">{{item.id}}</th>
                 <td><a href="{% url 'accounts:searchuser' item.id %}" class="main-color link-underline link-underline-opacity-0">{{item.title}}</a></td>
+                <td><a href="{% url 'records:index' %}?team={{item.id}}" class="btn btn-outline-secondary btn-sm">View posts</a></td>
                 <td>
                     {% if item.owner.image %}
                         <img src="{{item.owner.image.url}}" alt="..." class="rounded-circle icon-sm border">
@@ -42,7 +44,7 @@ Group
                 <td>{{item.members.count}}</td>
                 <td>
                     {% if item.owner == login_user %}
-                    <a href="{% url 'accounts:searchuser' item.id %}" class="btn btn-outline-secondary btn-sm">Add members</a>
+                    <a href="{% url 'accounts:searchuser' item.id %}" class="btn btn-outline-secondary btn-sm">Member list</a>
                     {% else %}
                     <button type="button" class="btn btn-outline-secondary btn-sm" disabled>Add members</button>
                     {% endif %}
@@ -60,7 +62,7 @@ Group
                 </td>
             </tr>
             {% empty %}
-            <div class="m-3">You've belonged to no team yet...</div>
+            <div class="m-3">You've belonged to no group yet...</div>
             {% endfor %}
         </tbody>
     </table>
