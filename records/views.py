@@ -120,7 +120,11 @@ def post(request):
 def like(request, book_id):
     # likeボタン押下で作動
     login_user = request.user
-    book = Book.objects.get(id=book_id)
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return render(request, '404.html', status=404)
+
     like = Like.objects.filter(owner=login_user).filter(book=book).first()
     if like:
         like.delete() # likeオブジェクトを削除
@@ -143,7 +147,10 @@ def like(request, book_id):
 
 def record(request, book_id):
     login_user = request.user
-    record = Book.objects.get(id=book_id)
+    try:
+        record = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return render(request, '404.html', status=404)
     if login_user in record.team.members.all() or login_user == record.team.owner:
         # クライアントがチームメンバーなら、Okay.
         pass
@@ -226,14 +233,20 @@ def portfolio(request):
 @login_required
 def reply(request, book_id, comment_id):
     login_user = request.user
-    record = Book.objects.get(id=book_id)
+    try: 
+        record = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return render(request, '404.html', status=404)
     if login_user in record.team.members.all() or login_user == record.team.owner:
         # クライアントがチームメンバーなら、Okay.
         pass
     else:
         messages.warning(request, 'No permission to access.')
         return redirect(f'/records/{book_id}')
-    comment = Comment.objects.get(id=comment_id)
+    try:
+        comment = Comment.objects.get(id=comment_id)
+    except Comment.DoesNotExist:
+        return render(request, '404.html', status=404)
     replies = Comment.objects.filter(reply_id=comment_id).distinct()
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -280,7 +293,10 @@ def reply(request, book_id, comment_id):
 @login_required
 def edit(request, book_id):
     login_user = request.user
-    record = Book.objects.get(id=book_id)
+    try:
+        record = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return render(request, '404.html', status=404)
     if record.owner != login_user:
         # ownerだけが編集できる
         messages.warning(request, 'No permission to edit this record.')
@@ -305,7 +321,10 @@ def edit(request, book_id):
 @login_required
 def delete(request, book_id):
     login_user = request.user
-    record = Book.objects.get(id=book_id)
+    try:
+        record = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return render(request, '404.html', status=404)
     if record.owner != login_user:
         # ownerだけが削除できる
         messages.warning(request, 'No permission to delete this record.')
