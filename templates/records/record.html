@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Record{% endblock %}
+{% block title %}{{item.title}} / {{item.first_author}} ({{item.pub_year}}) | {{item.owner}}{% endblock %}
 
 {% block header %}
 {{item.title}} / {{item.first_author}} <small>({{item.pub_year}})</small>
