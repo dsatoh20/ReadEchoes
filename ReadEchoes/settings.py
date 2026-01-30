@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'accounts',
     'records',
     'media_uploader',
-    
+    'django.contrib.sitemaps', # for sitemap
 ]
 
 MIDDLEWARE = [

@@ -19,6 +19,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from django.contrib.sitemaps.views import sitemap
+from records.sitemaps import RecordSitemap
+from accounts.sitemaps import StaticViewSitemap
+
+sitemaps = {
+    'records': RecordSitemap,
+    'static': StaticViewSitemap,
+}
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,7 +36,12 @@ urlpatterns = [
     path('', include('records.urls')),
     path('media-uploader', include('media_uploader.urls')),
     path('ads.txt', TemplateView.as_view(template_name='ads.txt', content_type='text/plain')),
+    path("sitemap.xml", 
+         sitemap,
+         {"sitemaps": sitemaps},
+         name="django.contrib.sitemaps.views.sitemap",)
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
