@@ -4,6 +4,7 @@
 {% block header %}
 {{item.title}} / {{item.first_author}}
 <small class="text-body-secondary">
+    <a href="{% url 'records:public_portfolio' item.owner.username %}" class="text-body-secondary link-underline link-underline-opacity-0">
     {% if item.owner.image %}
     <img src="{{item.owner.image.url}}" alt="..." class="rounded-circle icon-sm border">
     {% else %}
@@ -13,6 +14,7 @@
     </svg>
     {% endif %}
     {{item.owner}}
+    </a>
     <div class="mt-3">
         {% include 'records/score-component.html' with score=item.score %}
         <div class="mt-1 fs-6">

@@ -4,6 +4,7 @@
     <div class="comment-container vstack gap-1 border rounded">
         <div class="comment-header border-bottom ps-3 pe-3 pt-1 pb-1 d-flex">
             <small class="d-flex me-auto">
+                <a href="{% url 'records:public_portfolio' item.owner.username %}" class="text-body-secondary link-underline link-underline-opacity-0 d-flex">
                 {% if item.owner.image %}
                     <img src="{{item.owner.image.url}}" alt="..." class="rounded-circle icon-sm border me-1 mt-1">
                 {% else %}
@@ -13,6 +14,7 @@
                 </svg>
                 {% endif %}
                 {{item.owner}}
+                </a>
             </small>
             
             <small class="text-body-secondary ps-2">{{item.date}}</small>
