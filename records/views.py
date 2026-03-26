@@ -204,6 +204,40 @@ def record(request, book_id):
     }
     return render(request, 'records/record.html', params)
 
+def public_portfolio(request, username):
+    login_user = request.user
+    try:
+        target_user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return render(request, '404.html', status=404)
+
+    if login_user.is_authenticated:
+        accessible_teams = Team.objects.filter(Q(members=login_user) | Q(owner=login_user) | Q(public=True)).distinct()
+    else:
+        accessible_teams = Team.objects.filter(public=True)
+    items = Book.objects.filter(owner=target_user, team__in=accessible_teams).distinct()
+
+    selected_media = request.GET.get('info_medium', 'All')
+    if selected_media != 'All':
+        items = items.filter(info_medium=selected_media)
+
+    paginator = Paginator(items.order_by('-id'), page_contents_num)
+    page_num = request.GET.get('page')
+    page_obj = paginator.get_page(page_num)
+
+    form = MediumSelectForm(initial=request.GET)
+
+    params = {
+        'login_user': login_user,
+        'target_user': target_user,
+        'page_obj': page_obj,
+        'n_items': items.count(),
+        'liked_items': get_liked_items(login_user),
+        'form': form,
+    }
+    return render(request, 'records/public_portfolio.html', params)
+
+
 @login_required
 def portfolio(request):
     login_user = request.user

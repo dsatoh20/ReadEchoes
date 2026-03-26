@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}{{target_user.username}}'s Portfolio{% endblock %}
+
+{% block header %}
+{{target_user.username}}'s Portfolio
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+    <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5z"/>
+</svg>
+{% endblock %}
+{% block content %}
+<div class="fs-6 mb-3">{{n_items}} records by {{target_user.username}}.</div>
+<div class="">
+    <form method="get" action="{% url 'records:public_portfolio' target_user.username %}" class="">
+        {% csrf_token %}
+        {{form.info_medium}}
+        <button type="submit" class="btn btn-secondary btn-sm mt-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z"/>
+            </svg>
+            Sort
+        </button>
+    </form>
+</div>
+<div class="mt-3">
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 mt-3">
+        {% include 'records/card-component.html' with items=page_obj liked_items=liked_items %}
+    </div>
+    <div class="mt-3">
+        {% include 'records/paginator-component.html' with page_obj=page_obj %}
+    </div>
+</div>
+{% endblock %}

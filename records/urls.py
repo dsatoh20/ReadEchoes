@@ -11,6 +11,7 @@ urlpatterns = [
     path('like/<int:book_id>', views.like, name='like'),
     path('record/<int:book_id>', views.record, name='record'),
     path('portfolio', views.portfolio, name='portfolio'),
+    path('portfolio/<str:username>', views.public_portfolio, name='public_portfolio'),
     path('record/<int:book_id>/reply/<comment_id>', views.reply, name='reply'),
     path('edit/<int:book_id>', views.edit, name='edit'),
     path('delete/<int:book_id>', views.delete, name='delete'),
